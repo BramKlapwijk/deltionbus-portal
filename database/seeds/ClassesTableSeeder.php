@@ -12,7 +12,8 @@ class ClassesTableSeeder extends Seeder
      */
     public function run()
     {
-        Classes::truncate();
+        \App\Schemes::where('id', 'like', '%%')->delete();
+        Classes::where('id', 'like', '%%')->delete();
         $client = new GuzzleHttp\Client();
         $res = $client->Request('GET','https://roosters.deltion.nl/api/group', ['verify' => false]);
         $content = json_decode($res->getBody());

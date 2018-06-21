@@ -18,17 +18,12 @@ Route::group(['middleware'=>'auth'], function () {
     Route::get('/', 'HomeController@index');
     Route::get('classes', 'ClassesController@index');
     Route::post('classes', 'ClassesController@search');
-    Route::get('test', function () {
-        $start = \Carbon\Carbon::now()->startOfWeek()->format('Ymd');
-        $end = \Carbon\Carbon::now()->endOfWeek()->format('Ymd');
-        $client = new GuzzleHttp\Client();
-        $content = collect();
-        foreach (\App\Classes::all() as $class) {
-            $res = $client->Request('GET', 'https://roosters.deltion.nl/api/roster?group='.$class->name.'&start=' . $start . '&end=' . $end, ['verify' => false]);
-            $content->push(json_decode($res->getBody()));
-            $data = json_decode($res->getBody())->data;
-        }
-        dd($content);
+});
+Route::namespace('Api')->group(function () {
+    Route::get('/api/shake', 'HomeController@subscribe');
+    Route::group(['prefix'=> 'api', 'middleware'=>'handshoken'], function () {
+        Route::get('/classes', 'ClassesController@index');
+
     });
 });
 
