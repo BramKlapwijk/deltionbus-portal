@@ -12,6 +12,6 @@ class HomeController extends Controller
         $user = ApplicationUsers::create([
             'app_key' => $key
         ]);
-        return json_encode([$key, $user->id]);
+        return collect(['key'=>$key, 'id'=>$user->id]);
     }
 }

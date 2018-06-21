@@ -8,6 +8,6 @@ use App\Http\Controllers\Controller;
 class ClassesController extends Controller
 {
     public function index() {
-        return json_encode(Classes::all()->pluck('name'));
+        return collect(['items'=>Classes::all()->pluck('name')]);
     }
 }
