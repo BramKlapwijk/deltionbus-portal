@@ -18,12 +18,13 @@ Route::group(['middleware'=>'auth'], function () {
     Route::get('/', 'HomeController@index');
     Route::get('classes', 'ClassesController@index');
     Route::post('classes', 'ClassesController@search');
+    Route::get('users', 'ApplicationUserController@index');
 });
 Route::namespace('Api')->group(function () {
     Route::get('/api/shake', 'HomeController@subscribe');
     Route::group(['prefix'=> 'api', 'middleware'=>'handshoken'], function () {
         Route::get('/classes', 'ClassesController@index');
-
+        Route::post('/classes/settings', 'ClassesController@setPupils');
     });
 });
 
