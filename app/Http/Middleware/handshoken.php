@@ -18,9 +18,10 @@ class handshoken
     {
         if (!empty($request->get('id')) && !empty($request->get('key'))) {
             $user = ApplicationUsers::find($request->get('id'));
-            if ($user->app_key === $request->get('key')) {
+            if (!empty($user) && $user->app_key === $request->get('key')) {
                 return $next($request);
             }
         }
+        return abort(403, 'Unauthorized action.');
     }
 }

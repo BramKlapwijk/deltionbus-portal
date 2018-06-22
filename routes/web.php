@@ -13,7 +13,7 @@
 
 Auth::routes();
 
-Route::group(['middleware'=>'auth'], function () {
+Route::group(['middleware'=>['auth','csrf']], function () {
     Route::get('logout', 'HomeController@logout');
     Route::get('/', 'HomeController@index');
     Route::get('classes', 'ClassesController@index');

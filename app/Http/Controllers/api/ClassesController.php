@@ -11,7 +11,7 @@ class ClassesController extends Controller
         return collect(['items'=>Classes::all()->pluck('name')]);
     }
 
-    public function setPupils(Request $request) {
+    public function setPupils(\Illuminate\Http\Request $request) {
         $class = Classes::where('name', $request->get('class'))->first();
         $class->pupils = $request->get('pupils');
         $class->save();
