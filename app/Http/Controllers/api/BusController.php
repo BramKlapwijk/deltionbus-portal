@@ -29,9 +29,9 @@ class BusController extends Controller
     public function passengers()
     {
         if (\request()->get('to')) {
-            $classes = Schemes::where('date', Carbon::yesterday()->toDateString())->where('end', $this->nextQuarter()->format('H:i'))->pluck('class_id');
+            $classes = Schemes::where('date', $this->time->toDateString())->where('end', $this->nextQuarter()->format('H:i'))->pluck('class_id');
         } else {
-            $classes = Schemes::where('date', Carbon::yesterday()->toDateString())->where('start', $this->nextQuarter()->format('H:i'))->pluck('class_id');
+            $classes = Schemes::where('date', $this->time->toDateString())->where('start', $this->nextQuarter()->format('H:i'))->pluck('class_id');
         }
         $pupils = round(Classes::find($classes)->pluck('pupils')->sum() / 100 * 35);
         $passengers = round(max($pupils / 7.5,0) > 200 ? 200 : max($pupils / 7.5,0));
@@ -42,9 +42,17 @@ class BusController extends Controller
     public function nextQuarter()
     {
         $minutes = intval($this->time->format('i'));
-        $add = 15 % $minutes == 15 ? 0 : 15 % $minutes;
-
-        return Carbon::parse($this->time->addMinutes($add));
+        if ($minutes > 15 && $minutes <= 30) {
+            $add = 30 % $minutes === 30 ? 0 : 30 % $minutes;
+        } else if ($minutes > 15 && $minutes <= 45) {
+            $add = 45 % $minutes === 45 ? 0 : 45 % $minutes;
+        } else if ($minutes > 15 && $minutes <= 60) {
+            $add = 60 % $minutes === 60 ? 0 : 60 % $minutes;
+        } else {
+            $add = 15 % $minutes === 15 ? 0 : 15 % $minutes;
+        }
+        $time = $this->time;
+        return $time->addMinutes($add);
     }
 
     public function index()
