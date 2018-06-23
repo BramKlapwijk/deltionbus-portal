@@ -51,7 +51,7 @@ task('deploy', [
     'deploy:shared',
     'deploy:vendors',
     'deploy:writable',
-//    'artisan:migrate',
+    'artisan:migrate',
 //    'artisan:db:seed',
     'artisan:view:clear',
     'artisan:optimize',

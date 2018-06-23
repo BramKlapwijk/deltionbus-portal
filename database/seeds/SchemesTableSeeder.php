@@ -11,8 +11,8 @@ class SchemesTableSeeder extends Seeder
      */
     public function run()
     {
-        $start = \Carbon\Carbon::now()->startOfWeek()->format('Ymd');
-        $end = \Carbon\Carbon::now()->endOfWeek()->format('Ymd');
+        $start = \Carbon\Carbon::now()->addWeek()->startOfWeek()->format('Ymd');
+        $end = \Carbon\Carbon::now()->addWeek()->endOfWeek()->format('Ymd');
         $client = new GuzzleHttp\Client();
         foreach (\App\Classes::all() as $class) {
             $res = $client->Request('GET', 'https://roosters.deltion.nl/api/roster?group='.$class->name.'&start=' . $start . '&end=' . $end, ['verify' => false]);

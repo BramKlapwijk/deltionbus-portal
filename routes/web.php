@@ -19,8 +19,12 @@ Route::group(['middleware'=>['auth','csrf']], function () {
     Route::get('classes', 'ClassesController@index');
     Route::post('classes', 'ClassesController@search');
     Route::get('users', 'ApplicationUserController@index');
+    Route::get('settings', 'SettingsController@index');
+    Route::post('settings', 'SettingsController@save');
+    Route::get('activity', 'ActivityLogController@index');
 });
 Route::namespace('Api')->group(function () {
+    Route::get('/api/bus/info', 'BusController@index');
     Route::get('/api/shake', 'HomeController@subscribe');
     Route::group(['prefix'=> 'api', 'middleware'=>'handshoken'], function () {
         Route::get('/classes', 'ClassesController@index');
