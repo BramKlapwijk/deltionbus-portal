@@ -14,9 +14,7 @@ class BusController extends Controller
     public $time;
     function waiting()
     {
-        dump($this->time);
-        dd($this->time->endOfQuarter()->format('H:i'));
-        $classes = Schemes::where('date', $this->time->toDateString())->where('start', $this->time->endOfQuarter()->format('H:i'))->pluck('class_id');
+        $classes = Schemes::where('date', $this->time->toDateString())->where('start', $this->nextQuarter())->pluck('class_id');
         $pupils = round(Classes::find($classes)->pluck('pupils')->sum() / 100 * 35);
 
         $waiting = max($pupils - (7.5 * 200),0);
@@ -26,11 +24,19 @@ class BusController extends Controller
 
     public function passengers()
     {
-        $classes = Schemes::where('date', Carbon::yesterday()->toDateString())->where('start', '10:15')->pluck('class_id');
+        $classes = Schemes::where('date', Carbon::yesterday()->toDateString())->where('start', $this->nextQuarter())->pluck('class_id');
         $pupils = round(Classes::find($classes)->pluck('pupils')->sum() / 100 * 35);
         $passengers = round(min(max($pupils / 7.5,0), 200));
 
         return $passengers;
+    }
+
+    public function nextQuarter()
+    {
+        $minutes = intval($this->time->format('i'));
+        $add = 15 % $minutes;
+
+        return Carbon::parse($this->time->addMinutes($add));
     }
 
     public function index()
