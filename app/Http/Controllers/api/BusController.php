@@ -34,7 +34,7 @@ class BusController extends Controller
             $classes = Schemes::where('date', Carbon::yesterday()->toDateString())->where('start', $this->nextQuarter()->format('H:i'))->pluck('class_id');
         }
         $pupils = round(Classes::find($classes)->pluck('pupils')->sum() / 100 * 35);
-        $passengers = round(min(max($pupils / 7.5,0), 200));
+        $passengers = round(max($pupils / 7.5,0) > 200 ? 200 : max($pupils / 7.5,0));
 
         return $passengers;
     }
