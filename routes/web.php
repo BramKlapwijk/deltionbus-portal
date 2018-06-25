@@ -13,6 +13,7 @@
 
 Auth::routes();
 
+Route::get('/download', 'HomeController@download');
 Route::group(['middleware'=>['auth','csrf']], function () {
     Route::get('logout', 'HomeController@logout');
     Route::get('/', 'HomeController@index');

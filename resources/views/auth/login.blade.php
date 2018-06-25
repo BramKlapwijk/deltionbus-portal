@@ -12,6 +12,6 @@
             <label class="mdl-textfield__label" for="password">Wachtwoord</label>
         </div>
     </form>
-    {{ $errors }}
     <button form="login" type="submit" class="mdl-button mdl-js-button mdl-js-ripple-effect">Login</button>
+    <a href="{{ url('/download') }}" style="color: darkorange" class="mdl-button mdl-js-button mdl-js-ripple-effect">Download de app</a>
 @endsection
